@@ -6,12 +6,15 @@ extern crate chrono_humanize;
 extern crate failure;
 extern crate json;
 extern crate pager;
-extern crate requests;
+extern crate reqwest;
+extern crate serde;
+extern crate serde_json;
 
 use clap::{App, AppSettings, Arg, ArgMatches, SubCommand};
 use pager::Pager;
-use requests::{Request, Response, ToJson};
+use reqwest::Response;
 use std::fmt;
+// use serde::{Serialize, Deserialize};
 
 mod crates;
 mod errors;
@@ -72,12 +75,12 @@ impl Report {
     }
 
     pub fn report(&self, name: &str) -> Result<String, errors::Error> {
-        let response = try!(query(name));
+        let mut response = try!(query(name));
         let mut output = String::new();
 
         if self.json {
-            output = output + &self.report_json(&response);
-        } else if let Some(krate) = get_crate(&response) {
+            output = output + &self.report_json(&mut response);
+        } else if let Some(krate) = get_crate(&mut response) {
             if self.versions > 0 {
                 output = output + &self.report_versions(&krate, self.versions);
             } else if self.keywords {
@@ -89,14 +92,14 @@ impl Report {
         Ok(output)
     }
 
-    pub fn report_json(&self, response: &Response) -> String {
+    pub fn report_json(&self, response: &mut Response) -> String {
         let mut output = String::new();
         if self.verbose {
-            if let Ok(json) = response.json() {
-                output = output + &format!("{:#}", json);
+            if let Ok(text) = response.json::<serde_json::Value>() {
+                output = output + &format!("{:#}", text);
             }
-        } else if let Some(json) = response.text() {
-            output += json;
+        } else if let Ok(text) = response.text() {
+            output += &text;
         }
         output
     }
@@ -136,12 +139,16 @@ fn reportv(krate: &crates::Crate, verbose: bool) -> String {
     }
 }
 
-fn query(krate: &str) -> requests::Result {
-    Request::json().get(&format!("https://crates.io/api/v1/crates/{}", krate))
+fn query(krate: &str) -> reqwest::Result<Response> {
+    reqwest::get(&format!("https://crates.io/api/v1/crates/{}", krate))
 }
 
-fn get_crate(response: &Response) -> Option<crates::Crate> {
-    response.json().ok().map(|k| crates::Crate::new(&k))
+fn get_crate(response: &mut Response) -> Option<crates::Crate> {
+    response.text()
+        .ok()
+        .map(|k| {
+            crates::Crate::new(&json::parse(&k).unwrap())
+        })
 }
 
 // fn debug<T>(item: &T)
