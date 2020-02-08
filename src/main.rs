@@ -46,12 +46,17 @@ impl Report {
         if flags.is_empty() {
             flags.push(Flag::Default);
         }
+        let versions = match args.versions {
+            0 => 0,
+            1 => 5,
+            _ => usize::max_value(),
+        };
 
         Report {
             flags,
             verbose: args.verbose,
             json: args.json,
-            versions: args.versions,
+            versions,
             keywords: args.keywords,
         }
     }
