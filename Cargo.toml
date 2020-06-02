@@ -7,7 +7,7 @@ keywords = ["cargo", "info", "subcommand"]
 license = "Apache-2.0/MIT"
 name = "cargo-info"
 repository = "https://gitlab.com/imp/cargo-info.git"
-version = "0.5.16"
+version = "0.5.17"
 edition = "2018"
 
 [badges]
@@ -18,10 +18,10 @@ gitlab = { repository = "imp/cargo-info" }
 chrono = "0.4.11"
 chrono-humanize = "0.0.11"
 json = "0.12.4"
-serde = "1.0.106"
-serde_json = "1.0.51"
-structopt = "0.3.13"
-async-std = { version = "1.5.0", features = ["unstable", "attributes"] }
+serde = "1.0.111"
+serde_json = "1.0.53"
+structopt = "0.3.14"
+async-std = { version = "1.6.0", features = ["unstable", "attributes"] }
 surf = "1.0.3"
 
 [features]
