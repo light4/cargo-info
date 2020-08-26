@@ -15,13 +15,13 @@ travis-ci = { repository = "imp/cargo-info" }
 gitlab = { repository = "imp/cargo-info" }
 
 [dependencies]
-chrono = "0.4.11"
+chrono = "0.4.15"
 chrono-humanize = "0.0.11"
 json = "0.12.4"
-serde = "1.0.111"
-serde_json = "1.0.53"
-structopt = "0.3.14"
-async-std = { version = "1.6.0", features = ["unstable", "attributes"] }
+serde = "1.0.115"
+serde_json = "1.0.57"
+structopt = "0.3.17"
+async-std = { version = "1.6.3", features = ["unstable", "attributes"] }
 surf = "1.0.3"
 
 [features]
