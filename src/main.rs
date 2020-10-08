@@ -2,7 +2,8 @@ use std::fmt;
 
 use async_std::{eprintln, println};
 use structopt::StructOpt;
-use surf::{self, Exception};
+use surf;
+use anyhow::{anyhow, Result};
 
 use crate::args::{Args, Command};
 
@@ -61,7 +62,7 @@ impl Report {
         }
     }
 
-    pub async fn report(&self, name: &str) -> Result<String, Exception> {
+    pub async fn report(&self, name: &str) -> Result<String> {
         let krate_detail = get_crate(name).await?;
         let krate_json = json::parse(&krate_detail).expect("get crate parse json error");
 
@@ -81,7 +82,7 @@ impl Report {
         Ok(output)
     }
 
-    pub async fn report_json(&self, krate_json: &json::JsonValue) -> Result<String, Exception> {
+    pub async fn report_json(&self, krate_json: &json::JsonValue) -> Result<String> {
         let mut output = String::new();
         if self.verbose {
             output = output + &format!("{:#}", krate_json);
@@ -125,15 +126,17 @@ fn reportv(krate: &crates::Crate, verbose: bool) -> String {
     }
 }
 
-async fn get_crate(krate: &str) -> Result<String, Exception> {
-    Ok(
-        surf::get(&format!("https://crates.io/api/v1/crates/{}", krate))
-            .recv_string()
-            .await?,
-    )
+async fn get_crate(krate: &str) -> Result<String> {
+    let r = surf::get(&format!("https://crates.io/api/v1/crates/{}", krate))
+        .recv_string()
+        .await;
+    match r {
+        Ok(s) => Ok(s),
+        Err(e) => Err(anyhow!(e.to_string())),
+    }
 }
 
-async fn print_report<T>(r: Result<T, Exception>)
+async fn print_report<T>(r: Result<T>)
 where
     T: fmt::Display,
 {
