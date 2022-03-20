@@ -66,7 +66,7 @@ impl Report {
         let krate_json = json::parse(&krate_detail).expect("get crate parse json error");
 
         if self.json {
-            return self.report_json(&krate_json).await;
+            return Ok(krate_json.pretty(2));
         }
 
         let mut output = String::new();
@@ -77,14 +77,6 @@ impl Report {
             output = output + &self.report_keywords(&krate);
         } else {
             output = output + &self.report_crate(&krate);
-        }
-        Ok(output)
-    }
-
-    pub async fn report_json(&self, krate_json: &json::JsonValue) -> Result<String> {
-        let mut output = String::new();
-        if self.verbose {
-            output = output + &format!("{:#}", krate_json);
         }
         Ok(output)
     }
