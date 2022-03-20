@@ -1,9 +1,9 @@
 use std::fmt;
 
+use anyhow::{anyhow, Result};
 use async_std::{eprintln, println};
 use structopt::StructOpt;
 use surf;
-use anyhow::{anyhow, Result};
 
 use crate::args::{Args, Command};
 

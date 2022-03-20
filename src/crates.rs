@@ -130,7 +130,7 @@ impl Crate {
 
     fn print_version(v: &JsonValue, verbose: bool) -> String {
         let created_at = TimeStamp::from(&v["created_at"]);
-        let mut output = format!("{:<11}{:<#16}{:<11}", v["num"], created_at, v["downloads"]);
+        let mut output = format!("{:<16}{:<#16}{:<16}", v["num"], created_at, v["downloads"]);
 
         if v["yanked"].as_bool() == Some(true) {
             output += "\t\t(yanked)";
@@ -144,7 +144,7 @@ impl Crate {
     }
 
     fn print_version_header(verbose: bool) -> String {
-        let output = format!("{:<11}{:<#16}{:<11}\n", "VERSION", "RELEASED", "DOWNLOADS");
+        let output = format!("{:<16}{:<#16}{:<16}\n", "VERSION", "RELEASED", "DOWNLOADS");
 
         if verbose {
             // Consider adding some more useful information in verbose mode
@@ -184,21 +184,39 @@ impl fmt::Display for Crate {
             .filter_map(|jv| jv.as_str())
             .collect::<Vec<_>>();
 
+        let license = self.versions[0]["license"].as_str().unwrap_or_default();
+
+        let features = self.versions[0]["features"]
+            .entries()
+            .filter_map(|(k, _)| if k != "default" { Some(k) } else { None })
+            .collect::<Vec<_>>();
+        let default_features = self.versions[0]["features"]["default"]
+            .members()
+            .filter_map(|jv| jv.as_str())
+            .collect::<Vec<_>>();
+
+        write!(
+            f,
+            "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n",
+            format_args!("{:<18}{}", "Crate:", self.krate["name"]),
+            format_args!("{:<18}{}", "Version:", self.krate["max_version"]),
+            format_args!("{:<18}{:?}", "Default features:", default_features),
+            format_args!("{:<18}{:?}", "Features:", features),
+            format_args!("{:<18}{}", "Description:", self.krate["description"]),
+            format_args!("{:<18}{}", "Downloads:", self.krate["downloads"]),
+            format_args!("{:<18}{}", "Homepage:", self.krate["homepage"]),
+            format_args!("{:<18}{}", "Documentation:", self.krate["documentation"]),
+            format_args!("{:<18}{}", "Repository:", self.krate["repository"]),
+            format_args!("{:<18}{}", "License:", license),
+            format_args!("{:<18}{:?}", "Keywords:", keywords),
+        )?;
+
         if f.alternate() {
             write!(
                 f,
-                "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}",
-                format_args!("{:<16}{}", "Crate:", self.krate["name"]),
-                format_args!("{:<16}{}", "Version:", self.krate["max_version"]),
-                format_args!("{:<16}{}", "Description:", self.krate["description"]),
-                format_args!("{:<16}{}", "Downloads:", self.krate["downloads"]),
-                format_args!("{:<16}{}", "Homepage:", self.krate["homepage"]),
-                format_args!("{:<16}{}", "Documentation:", self.krate["documentation"]),
-                format_args!("{:<16}{}", "Repository:", self.krate["repository"]),
-                format_args!("{:<16}{}", "License:", self.krate["license"]),
-                format_args!("{:<16}{:?}", "Keywords:", keywords),
-                format_args!("{:<16}{}  ({:#})", "Created at:", created_at, created_at),
-                format_args!("{:<16}{}  ({:#})", "Updated at:", updated_at, updated_at)
+                "{}\n{}",
+                format_args!("{:<18}{}  ({:#})", "Created at:", created_at, created_at),
+                format_args!("{:<18}{}  ({:#})", "Updated at:", updated_at, updated_at)
             )
         } else {
             let mut versions = String::new();
@@ -211,16 +229,9 @@ impl fmt::Display for Crate {
 
             write!(
                 f,
-                "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}",
-                format_args!("{:<16}{}", "Crate:", self.krate["name"]),
-                format_args!("{:<16}{}", "Version:", self.krate["max_version"]),
-                format_args!("{:<16}{}", "Description:", self.krate["description"]),
-                format_args!("{:<16}{}", "Downloads:", self.krate["downloads"]),
-                format_args!("{:<16}{}", "Homepage:", self.krate["homepage"]),
-                format_args!("{:<16}{}", "Documentation:", self.krate["documentation"]),
-                format_args!("{:<16}{}", "Repository:", self.krate["repository"]),
-                format_args!("{:<16}{:#}", "Last updated:", updated_at),
-                format_args!("{:<16}\n{}", "Version history:", versions)
+                "{}\n{}\n",
+                format_args!("{:<18}{:#}", "Last updated:", updated_at),
+                format_args!("{:<18}\n{}", "Version history:", versions)
             )
         }
     }
