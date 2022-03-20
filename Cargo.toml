@@ -23,5 +23,5 @@ async-std = { version = "1.10.0", features = ["unstable", "attributes"] }
 surf = "2.3.2"
 anyhow = "1.0.56"
 
-[features]
-default = []
+[profile.release]
+lto = "thin"
