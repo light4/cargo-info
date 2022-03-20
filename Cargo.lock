@@ -319,8 +319,6 @@ dependencies = [
  "chrono",
  "chrono-humanize",
  "json",
- "serde",
- "serde_json",
  "structopt",
  "surf",
 ]
