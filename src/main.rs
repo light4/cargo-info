@@ -1,13 +1,19 @@
 use std::fmt;
 
-use anyhow::{anyhow, Result};
-use async_std::{eprintln, println};
+use anyhow::Result;
 use structopt::StructOpt;
 
 use crate::args::{Args, Command};
 
 mod args;
 mod crates;
+
+static USER_AGENT: &str = concat!(
+    env!("CARGO_PKG_NAME"),
+    "/",
+    env!("CARGO_PKG_VERSION"),
+    " (https://github.com/light4/cargo-info)"
+);
 
 #[derive(Debug, PartialEq)]
 enum Flag {
@@ -118,32 +124,34 @@ fn reportv(krate: &crates::Crate, verbose: bool) -> String {
 }
 
 async fn get_crate(krate: &str) -> Result<String> {
-    let r = surf::get(&format!("https://crates.io/api/v1/crates/{}", krate))
-        .recv_string()
-        .await;
-    match r {
-        Ok(s) => Ok(s),
-        Err(e) => Err(anyhow!(e.to_string())),
-    }
+    let client = reqwest::Client::builder().user_agent(USER_AGENT).build()?;
+    let body = client
+        .get(&format!("https://crates.io/api/v1/crates/{}", krate))
+        .send()
+        .await?
+        .text()
+        .await?;
+
+    Ok(body)
 }
 
-async fn print_report<T>(r: Result<T>)
+fn print_report<T>(r: Result<T>)
 where
     T: fmt::Display,
 {
     match r {
-        Ok(text) => println!("\n{}\n", text).await,
-        Err(err) => eprintln!("\n{}\n", err).await,
+        Ok(text) => println!("\n{}\n", text),
+        Err(err) => eprintln!("\n{}\n", err),
     }
 }
 
-#[async_std::main]
+#[tokio::main(flavor = "current_thread")]
 async fn main() {
     let args: Command = Command::from_args();
     let Command::Info(args) = args;
 
     let rep = Report::new(&args);
     for krate in args.crates {
-        print_report(rep.report(&krate).await).await;
+        print_report(rep.report(&krate).await);
     }
 }

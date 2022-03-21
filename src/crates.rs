@@ -202,7 +202,10 @@ impl fmt::Display for Crate {
         write!(
             f,
             "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n",
-            format_args!("{:<18}{}", "Crate:", self.krate.name),
+            format_args!(
+                "{:<18}{} (https://crates.io/crates/{})",
+                "Crate:", self.krate.name, self.krate.name
+            ),
             format_args!("{:<18}{}", "Version:", self.krate.max_version),
             format_args!(
                 "{:<18}{:?}",
