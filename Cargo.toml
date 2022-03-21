@@ -1,12 +1,12 @@
 [package]
-authors = ["Cyril Plisko <cyril.plisko@mountall.com>"]
+authors = ["Cyril Plisko <cyril.plisko@mountall.com>", "lightning1141@gmail.com"]
 categories = ["development-tools::cargo-plugins"]
 description = "Extends cargo to query crates.io registry for crates details"
-documentation = "https://docs.rs/cargo-info"
+documentation = "https://github.com/light4/cargo-info"
 keywords = ["cargo", "info", "subcommand"]
 license = "Apache-2.0/MIT"
 name = "cargo-info"
-repository = "https://gitlab.com/imp/cargo-info.git"
+repository = "https://github.com/light4/cargo-info"
 version = "0.6.2"
 edition = "2021"
 

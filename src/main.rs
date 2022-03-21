@@ -12,7 +12,9 @@ static USER_AGENT: &str = concat!(
     env!("CARGO_PKG_NAME"),
     "/",
     env!("CARGO_PKG_VERSION"),
-    " (https://github.com/light4/cargo-info)"
+    " (",
+    env!("CARGO_PKG_HOMEPAGE"),
+    ")"
 );
 
 #[derive(Debug, PartialEq)]
