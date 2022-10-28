@@ -1,7 +1,7 @@
 use std::fmt;
 
 use anyhow::Result;
-use structopt::StructOpt;
+use clap::Parser;
 
 use crate::args::{Args, Command};
 
@@ -119,16 +119,16 @@ impl Report {
 
 fn reportv(krate: &crates::Crate, verbose: bool) -> String {
     if verbose {
-        format!("{:#}", krate)
+        format!("{krate:#}")
     } else {
-        format!("{}", krate)
+        format!("{krate}")
     }
 }
 
 async fn get_crate(krate: &str) -> Result<String> {
     let client = reqwest::Client::builder().user_agent(USER_AGENT).build()?;
     let body = client
-        .get(&format!("https://crates.io/api/v1/crates/{}", krate))
+        .get(&format!("https://crates.io/api/v1/crates/{krate}"))
         .send()
         .await?
         .text()
@@ -142,14 +142,14 @@ where
     T: fmt::Display,
 {
     match r {
-        Ok(text) => println!("\n{}\n", text),
-        Err(err) => eprintln!("\n{}\n", err),
+        Ok(text) => println!("\n{text}\n"),
+        Err(err) => eprintln!("\n{err}\n"),
     }
 }
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
-    let args: Command = Command::from_args();
+    let args: Command = Command::parse();
     let Command::Info(args) = args;
 
     let rep = Report::new(&args);

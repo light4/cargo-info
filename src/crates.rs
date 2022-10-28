@@ -91,7 +91,7 @@ impl Crate {
 
         let doc = &crate_jv["documentation"];
         let documentation = if doc.is_empty() {
-            format!("https://docs.rs/{}", name)
+            format!("https://docs.rs/{name}")
         } else {
             doc.to_string()
         };
@@ -153,7 +153,7 @@ impl Crate {
 
     fn print_version(v: &JsonValue, _verbose: bool) -> String {
         let created_at = TimeStamp::from(&v["created_at"]);
-        let mut output = format!("{:<16}{:<#16}{:<16}", v["num"], created_at, v["downloads"]);
+        let mut output = format!("{:<16}{created_at:<#16}{:<16}", v["num"], v["downloads"]);
 
         if v["yanked"].as_bool() == Some(true) {
             output += "\t\t(yanked)";
@@ -183,7 +183,7 @@ impl Crate {
         }
         let length = self.versions.len();
         if limit < length {
-            output = output + &format!("\n... use -VV to show all {} versions\n", length);
+            output = output + &format!("\n... use -VV to show all {length} versions\n");
         }
         output
     }
@@ -247,7 +247,7 @@ impl fmt::Display for Crate {
                 f,
                 "{}\n{}\n",
                 format_args!("{:<18}{:#}", "Last updated:", self.krate.updated_at),
-                format_args!("{:<18}\n{}", "Version history:", versions)
+                format_args!("{:<18}\n{versions}", "Version history:")
             )
         }
     }

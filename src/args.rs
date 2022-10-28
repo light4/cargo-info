@@ -1,62 +1,62 @@
 //! Handle `cargo info` arguments
-use structopt::StructOpt;
+use clap::Parser;
 
-#[derive(Debug, StructOpt)]
-#[structopt(bin_name = "cargo")]
+#[derive(Debug, Parser)]
+#[command(bin_name = "cargo")]
 pub enum Command {
     /// Query crates.io for crates details.
-    #[structopt(name = "info")]
+    #[command(name = "info")]
     Info(Args),
 }
 
-#[derive(Debug, StructOpt)]
+#[derive(Debug, Parser)]
 pub struct Args {
     /// Crate name to be queried
-    #[structopt(name = "crate", required = true)]
+    #[arg(name = "crate", required = true)]
     pub crates: Vec<String>,
 
     /// Report documentation URL
-    #[structopt(short)]
+    #[arg(short)]
     pub documentation: bool,
 
     /// Report number of crate downloads
-    #[structopt(short = "D")]
+    #[arg(short = 'D')]
     pub downloads: bool,
 
     /// Report home page URL
-    #[structopt(short = "H")]
+    #[arg(short = 'H')]
     pub homepage: bool,
 
     /// Report crate repository URL
-    #[structopt(short)]
+    #[arg(short)]
     pub repository: bool,
 
     /// Report crate keywords
-    #[structopt(short)]
+    #[arg(short)]
     pub keywords: bool,
 
     /// Report raw JSON data from crates.io
-    #[structopt(
+    #[arg(
         short,
         conflicts_with_all = &["documentation", "downloads", "homepage", "repository", "keywords"]
     )]
     pub json: bool,
 
     /// Report more details
-    #[structopt(short)]
+    #[arg(short)]
     pub verbose: bool,
 
     /// Report version history of the crate (5 last versions), twice for full history
-    #[structopt(short = "V", parse(from_occurrences))]
-    pub versions: usize,
+    #[arg(short = 'V', action = clap::ArgAction::Count)]
+    pub versions: u8,
 
     /// Include prerelease versions when fetching from crates.io (e.g.
     /// '0.6.0-alpha').
-    #[structopt(short)]
+    #[arg(short)]
     pub allow_prerelease: bool,
 
     /// Run without accessing the network
-    #[structopt(short)]
+    #[arg(short)]
     pub offline: bool,
 }
 
