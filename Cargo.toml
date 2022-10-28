@@ -15,13 +15,13 @@ travis-ci = { repository = "imp/cargo-info" }
 gitlab = { repository = "imp/cargo-info" }
 
 [dependencies]
-anyhow = "1.0.56"
-chrono = "0.4.19"
-chrono-humanize = "0.2.1"
+anyhow = "1.0.66"
+chrono = "0.4.22"
+chrono-humanize = "0.2.2"
 json = "0.12.4"
-reqwest = "0.11.10"
+reqwest = "0.11.12"
 structopt = "0.3.26"
-tokio = { version = "1.17.0", features = ["rt", "net", "macros"] }
+tokio = { version = "1.21.2", features = ["rt", "net", "macros"] }
 
 [profile.release]
 lto = "thin"
