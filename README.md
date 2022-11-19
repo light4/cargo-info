@@ -2,6 +2,7 @@
 Query crates.io for crates details
 
 [![CI](https://github.com/light4/cargo-info/actions/workflows/test.yaml/badge.svg)](https://github.com/light4/cargo-info/actions/workflows/test.yaml)
+[![build-and-release](https://github.com/light4/cargo-info/actions/workflows/build-and-release.yaml/badge.svg)](https://github.com/light4/cargo-info/actions/workflows/build-and-release.yaml)
 
 ## Install
 
