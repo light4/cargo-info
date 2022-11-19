@@ -69,8 +69,8 @@ impl Report {
         }
     }
 
-    pub async fn report(&self, name: &str) -> Result<String> {
-        let krate_detail = get_crate(name).await?;
+    pub fn report(&self, name: &str) -> Result<String> {
+        let krate_detail = get_crate(name)?;
         let krate_json = json::parse(&krate_detail).expect("get crate parse json error");
 
         if self.json {
@@ -125,14 +125,11 @@ fn reportv(krate: &crates::Crate, verbose: bool) -> String {
     }
 }
 
-async fn get_crate(krate: &str) -> Result<String> {
-    let client = reqwest::Client::builder().user_agent(USER_AGENT).build()?;
-    let body = client
-        .get(&format!("https://crates.io/api/v1/crates/{krate}"))
-        .send()
-        .await?
-        .text()
-        .await?;
+fn get_crate(krate: &str) -> Result<String> {
+    let body = ureq::get(&format!("https://crates.io/api/v1/crates/{krate}"))
+        .set("User-Agent", USER_AGENT)
+        .call()?
+        .into_string()?;
 
     Ok(body)
 }
@@ -147,13 +144,12 @@ where
     }
 }
 
-#[tokio::main(flavor = "current_thread")]
-async fn main() {
+fn main() {
     let args: Command = Command::parse();
     let Command::Info(args) = args;
 
     let rep = Report::new(&args);
     for krate in args.crates {
-        print_report(rep.report(&krate).await);
+        print_report(rep.report(&krate));
     }
 }
