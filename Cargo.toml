@@ -10,10 +10,6 @@ repository = "https://github.com/light4/cargo-info"
 version = "0.6.4"
 edition = "2021"
 
-[badges]
-travis-ci = { repository = "imp/cargo-info" }
-gitlab = { repository = "imp/cargo-info" }
-
 [dependencies]
 anyhow = "1.0.66"
 chrono = "0.4.23"

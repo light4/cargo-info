@@ -1,6 +1,8 @@
 # cargo-info
 Query crates.io for crates details
 
+[![CI](https://github.com/light4/cargo-info/actions/workflows/test.yaml/badge.svg)](https://github.com/light4/cargo-info/actions/workflows/test.yaml)
+
 ## Install
 
 ```bash
