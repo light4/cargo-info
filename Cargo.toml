@@ -1,5 +1,8 @@
 [package]
-authors = ["Cyril Plisko <cyril.plisko@mountall.com>", "lightning1141@gmail.com"]
+authors = [
+    "Cyril Plisko <cyril.plisko@mountall.com>",
+    "lightning1141@gmail.com",
+]
 categories = ["development-tools::cargo-plugins"]
 description = "Extends cargo to query crates.io registry for crates details"
 documentation = "https://github.com/light4/cargo-info"
@@ -12,8 +15,11 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.66"
-chrono = "0.4.23"
-chrono-humanize = "0.2.2"
+chrono = { version = "0.4", default-features = false, features = [
+    "std",
+    "clock",
+] }
+chrono-humanize = { git = "https://github.com/light4/chrono-humanize.git", tag = "0.2.3" }
 clap = { version = "4.0.26", features = ["derive"] }
 json = "0.12.4"
 ureq = "2.5.0"
