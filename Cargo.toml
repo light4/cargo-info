@@ -14,15 +14,15 @@ version = "0.6.5"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.66"
+anyhow = "1.0"
 chrono = { version = "0.4", default-features = false, features = [
     "std",
     "clock",
 ] }
 chrono-humanize = { git = "https://github.com/light4/chrono-humanize.git", tag = "0.2.3" }
-clap = { version = "4.0.26", features = ["derive"] }
-json = "0.12.4"
-ureq = "2.5.0"
+clap = { version = "4.0", features = ["derive"] }
+json = "0.12"
+ureq = "2.5"
 
 [profile.release]
 lto = "thin"
