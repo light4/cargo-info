@@ -20,9 +20,17 @@ chrono = { version = "0.4", default-features = false, features = [
     "clock",
 ] }
 chrono-humanize = { git = "https://github.com/light4/chrono-humanize.git", tag = "0.2.3" }
-clap = { version = "4.0", features = ["derive"] }
+clap = { version = "4.0", default-features = false, features = [
+    "std",
+    "help",
+    "usage",
+    "derive",
+    "error-context",
+] }
 json = "0.12"
 ureq = "2.5"
 
 [profile.release]
 lto = "thin"
+codegen-units = 4
+strip = "debuginfo"
