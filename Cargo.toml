@@ -28,7 +28,7 @@ clap = { version = "4.0", default-features = false, features = [
     "error-context",
 ] }
 json = "0.12"
-ureq = "2.5"
+ureq = "2.6"
 
 [profile.release]
 lto = "thin"
