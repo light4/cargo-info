@@ -20,7 +20,7 @@ chrono = { version = "0.4", default-features = false, features = [
     "clock",
 ] }
 chrono-humanize = { git = "https://github.com/light4/chrono-humanize.git", tag = "0.2.3" }
-clap = { version = "4.0", default-features = false, features = [
+clap = { version = "4.1", default-features = false, features = [
     "std",
     "help",
     "usage",
