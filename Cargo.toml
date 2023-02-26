@@ -10,7 +10,7 @@ keywords = ["cargo", "info", "subcommand"]
 license = "Apache-2.0/MIT"
 name = "cargo-info"
 repository = "https://github.com/light4/cargo-info"
-version = "0.6.5"
+version = "0.6.6"
 edition = "2021"
 
 [dependencies]
