@@ -14,7 +14,6 @@ version = "0.6.6"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0"
 chrono = { version = "0.4", default-features = false, features = [
     "std",
     "clock",
@@ -27,6 +26,7 @@ clap = { version = "4.1", default-features = false, features = [
     "derive",
     "error-context",
 ] }
+color-eyre = "0.6"
 json = "0.12"
 ureq = "2.6"
 

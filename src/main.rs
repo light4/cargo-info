@@ -1,7 +1,7 @@
 use std::fmt;
 
-use anyhow::Result;
 use clap::Parser;
+use color_eyre::Result;
 
 use crate::args::{Args, Command};
 
@@ -144,7 +144,9 @@ where
     }
 }
 
-fn main() {
+fn main() -> Result<()> {
+    color_eyre::install()?;
+
     let args: Command = Command::parse();
     let Command::Info(args) = args;
 
@@ -152,4 +154,6 @@ fn main() {
     for krate in args.crates {
         print_report(rep.report(&krate));
     }
+
+    Ok(())
 }
