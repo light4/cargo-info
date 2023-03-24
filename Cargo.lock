@@ -67,7 +67,7 @@ checksum = "0d261e256854913907f67ed06efbc3338dfe6179796deefc1ff763fc1aee5535"
 
 [[package]]
 name = "cargo-info"
-version = "0.6.6"
+version = "0.6.7"
 dependencies = [
  "chrono",
  "chrono-humanize",
