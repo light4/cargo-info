@@ -8,12 +8,14 @@ Query crates.io for crates details
 
 ```bash
 cargo install --git https://github.com/light4/cargo-info.git --force
+# Archlinux aur https://aur.archlinux.org/packages/cargo-info
+yay -S cargo-info
 ```
 
 ## Usage
 
 ```bash
-~ on  master via 🐍 v3.10.2 🕙 12:59:50 
+~ on  master via 🐍 v3.10.2 🕙 12:59:50
 ❯ cargo info serde
 
 Crate:            serde (https://crates.io/crates/serde)
@@ -28,9 +30,9 @@ Repository:       https://github.com/serde-rs/serde
 License:          MIT OR Apache-2.0
 Keywords:         ["serde", "serialization", "no_std"]
 Last updated:     2 months ago
-Version history:  
+Version history:
 
-  VERSION         RELEASED        DOWNLOADS       
+  VERSION         RELEASED        DOWNLOADS
 
   1.0.136         2 months ago    4297338
   1.0.135         2 months ago    446780
