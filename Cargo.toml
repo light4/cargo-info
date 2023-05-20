@@ -10,7 +10,7 @@ keywords = ["cargo", "info", "subcommand"]
 license = "Apache-2.0/MIT"
 name = "cargo-info"
 repository = "https://github.com/light4/cargo-info"
-version = "0.6.8"
+version = "0.6.9"
 edition = "2021"
 
 [dependencies]
@@ -19,7 +19,7 @@ chrono = { version = "0.4", default-features = false, features = [
     "clock",
 ] }
 chrono-humanize = { git = "https://github.com/light4/chrono-humanize.git", tag = "0.2.3" }
-clap = { version = "4.2", default-features = false, features = [
+clap = { version = "4.3", default-features = false, features = [
     "std",
     "help",
     "usage",
